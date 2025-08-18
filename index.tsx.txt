@@ -1,0 +1,111 @@
+import React from 'react';
+import {
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+
+const App: React.FC = () => {
+  const handleAddAccount = () => {
+    alert('Funcionalidade "Adicionar Conta" a ser implementada!');
+  };
+  
+  const handleAddGoogleAccount = () => {
+    alert('Funcionalidade "Adicionar conta Google" a ser implementada!');
+  };
+
+  return (
+    <SafeAreaView style={styles.safeArea}>
+      <StatusBar barStyle="light-content" backgroundColor="#1a1a1a" />
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.title}>AlphaAutenticador</Text>
+        </View>
+        <View style={styles.content}>
+          <Text style={styles.placeholderText}>Nenhuma conta adicionada ainda.</Text>
+          <Text style={styles.placeholderSubText}>Adicione sua primeira conta para começar.</Text>
+        </View>
+        <View style={styles.footer}>
+          {/* Botão para adicionar conta genérica */}
+          <TouchableOpacity onPress={handleAddAccount} style={[styles.addButton, styles.genericButton]}>
+            <Text style={styles.addButtonText}>+ Adicionar uma conta</Text>
+          </TouchableOpacity>
+          
+          {/* Novo botão para adicionar conta Google */}
+          <TouchableOpacity onPress={handleAddGoogleAccount} style={[styles.addButton, styles.googleButton]}>
+            <Text style={styles.googleButtonText}>+ Adicionar conta Google</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </SafeAreaView>
+  );
+};
+
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#1a1a1a',
+  },
+  container: {
+    flex: 1,
+    paddingHorizontal: 20,
+    justifyContent: 'space-between',
+  },
+  header: {
+    paddingTop: 40,
+    paddingBottom: 20,
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: '#ffffff',
+    textAlign: 'center',
+  },
+  content: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  placeholderText: {
+    fontSize: 18,
+    color: '#a0a0a0',
+  },
+  placeholderSubText: {
+    fontSize: 14,
+    color: '#666666',
+    marginTop: 8,
+  },
+  footer: {
+    paddingVertical: 30,
+    alignItems: 'center', // Alinha os botões no centro horizontalmente
+  },
+  addButton: {
+    padding: 15,
+    borderRadius: 8,
+    width: '100%',
+    marginBottom: 10, // Espaçamento entre os botões
+  },
+  genericButton: {
+    backgroundColor: '#2a2a2a',
+  },
+  addButtonText: {
+    color: '#4285F4',
+    fontSize: 16,
+    textAlign: 'center',
+    fontWeight: '500',
+  },
+  googleButton: {
+    backgroundColor: '#4285F4', // Cor azul do Google
+  },
+  googleButtonText: {
+    color: '#ffffff', // Cor branca para o texto do botão
+    fontSize: 16,
+    textAlign: 'center',
+    fontWeight: '500',
+  },
+});
+
+export default App;
