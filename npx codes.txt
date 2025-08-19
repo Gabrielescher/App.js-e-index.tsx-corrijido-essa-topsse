@@ -2,4 +2,7 @@ npx create-expo-app AlphaAutenticador --template tabs
 
 cd- AlphaAutenticador
 
+
 npx expo start --clear
+
+npm install expo-linear-gradient @expo/vector-icons
