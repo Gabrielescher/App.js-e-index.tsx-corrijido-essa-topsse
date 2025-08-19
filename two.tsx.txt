@@ -1,0 +1,178 @@
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, TouchableOpacity, useColorScheme } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient'; // Para gradientes
+import { Text, View } from '@/components/Themed';
+import { FontAwesome } from '@expo/vector-icons'; // Para ícones
+
+export default function TabOneScreen() {
+  const colorScheme = useColorScheme(); // Detecta tema claro ou escuro
+  const [timeLeft, setTimeLeft] = useState(30); // Timer de 30 segundos
+  const [code, setCode] = useState(generateCode()); // Código inicial
+
+  // Função para gerar um código de 6 dígitos
+  function generateCode() {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+  }
+
+  // Efeito para o timer
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          setCode(generateCode()); // Gera novo código
+          return 30; // Reinicia o timer
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer); // Limpa o intervalo
+  }, []);
+
+  // Tema dinâmico baseado no colorScheme
+  const theme = colorScheme === 'dark' ? darkTheme : lightTheme;
+
+  return (
+    <LinearGradient
+      colors={theme.containerGradient}
+      style={styles.container}
+    >
+      {/* Título com ícone */}
+      <View style={styles.titleContainer}>
+        <FontAwesome name="lock" size={32} color={theme.titleColor} />
+        <Text style={[styles.title, { color: theme.titleColor }]}>
+          Alpha Autenticador
+        </Text>
+      </View>
+
+      {/* Container do código e timer */}
+      <View style={[styles.codeContainer, { backgroundColor: theme.cardBackground }]}>
+        <Text style={[styles.code, { color: theme.codeColor }]}>
+          {code.split('').join(' ')} {/* Espaço entre dígitos */}
+        </Text>
+        <View style={styles.timerBar}>
+          <View
+            style={[
+              styles.timerProgress,
+              { width: `${(timeLeft / 30) * 100}%`, backgroundColor: theme.progressColor },
+            ]}
+          />
+        </View>
+        <Text style={[styles.timerText, { color: theme.textColor }]}>
+          {timeLeft} segundos
+        </Text>
+      </View>
+
+      {/* Botão Adicionar Conta */}
+      <TouchableOpacity style={[styles.button, { backgroundColor: theme.buttonColor }]}>
+        <LinearGradient
+          colors={theme.buttonGradient}
+          style={styles.buttonGradient}
+        >
+          <FontAwesome name="plus" size={18} color="#fff" style={styles.buttonIcon} />
+          <Text style={styles.buttonText}>Adicionar Conta</Text>
+        </LinearGradient>
+      </TouchableOpacity>
+    </LinearGradient>
+  );
+}
+
+// Temas claro e escuro
+const lightTheme = {
+  containerGradient: ['#f0f2f5', '#e6e9ef'],
+  cardBackground: '#ffffff',
+  titleColor: '#1a1a1a',
+  codeColor: '#007bff',
+  progressColor: '#007bff',
+  textColor: '#4a4a4a',
+  buttonColor: '#007bff',
+  buttonGradient: ['#007bff', '#005bb5'],
+};
+
+const darkTheme = {
+  containerGradient: ['#1c2526', '#2e3b3e'],
+  cardBackground: '#2c3e50',
+  titleColor: '#ffffff',
+  codeColor: '#4fc3f7',
+  progressColor: '#4fc3f7',
+  textColor: '#b0bec5',
+  buttonColor: '#0288d1',
+  buttonGradient: ['#0288d1', '#01579b'],
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 60,
+    paddingHorizontal: 20,
+  },
+  titleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: '800',
+    letterSpacing: 1,
+    textTransform: 'uppercase',
+  },
+  codeContainer: {
+    alignItems: 'center',
+    padding: 24,
+    borderRadius: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.2,
+    shadowRadius: 12,
+    elevation: 8,
+    transform: [{ scale: 1 }], // Para animações futuras
+  },
+  code: {
+    fontSize: 40,
+    fontWeight: '900',
+    letterSpacing: 8,
+    marginBottom: 16,
+    fontVariant: ['tabular-nums'], // Alinha números
+  },
+  timerBar: {
+    width: 240,
+    height: 8,
+    backgroundColor: '#e0e0e0',
+    borderRadius: 4,
+    overflow: 'hidden',
+  },
+  timerProgress: {
+    height: '100%',
+    borderRadius: 4,
+    transitionProperty: 'width',
+    transitionDuration: '1s',
+    transitionTimingFunction: 'linear',
+  },
+  timerText: {
+    fontSize: 18,
+    fontWeight: '500',
+    marginTop: 12,
+  },
+  button: {
+    borderRadius: 12,
+    overflow: 'hidden',
+  },
+  buttonGradient: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 16,
+    paddingHorizontal: 32,
+    borderRadius: 12,
+  },
+  buttonIcon: {
+    marginRight: 10,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: '700',
+  },
+});
